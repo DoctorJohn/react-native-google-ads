@@ -183,6 +183,9 @@ public class ReactNativeGoogleMobileAdsBannerAdViewManager
         new AdListener() {
           @Override
           public void onAdLoaded() {
+            // TODO: ADD CALLBACK HERE
+
+
             AdSize adSize = adView.getAdSize();
             int left, top, width, height;
             if (reactViewGroup.getIsFluid()) {
@@ -278,6 +281,9 @@ public class ReactNativeGoogleMobileAdsBannerAdViewManager
     }
   }
 
+  // TODO: can be use the helper from common for this too?
+  // TODO: its this way so that the JS BannerView can receive event using the onNativeEvent prop.
+  // TODO: fullscreen ads don't have that because they don't have a component
   private void sendEvent(ReactNativeAdView reactViewGroup, String type, WritableMap payload) {
     WritableMap event = Arguments.createMap();
     event.putString("type", type);

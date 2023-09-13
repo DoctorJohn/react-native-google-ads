@@ -216,6 +216,18 @@ abstract class ReactNativeGoogleMobileAdsFullScreenAdModule<T>(
           }
         adHelper.setFullScreenContentCallback(fullScreenContentCallback)
 
+        ad.onPaidEventListener = OnPaidEventListener { adValue ->
+            val adValueMap = ReactNativeGoogleMobileAdsCommon.adValueToMap(adValue)
+
+            sendAdEvent(
+              GOOGLE_MOBILE_ADS_EVENT_PAID,
+              requestId,
+              adUnitId,
+              null,
+              adValueMap
+            )
+        }
+
         adArray.put(
           requestId,
           ad

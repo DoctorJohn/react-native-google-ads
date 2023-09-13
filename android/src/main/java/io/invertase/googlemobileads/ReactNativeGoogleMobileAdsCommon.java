@@ -29,6 +29,7 @@ import com.google.ads.mediation.admob.AdMobAdapter;
 import com.google.android.gms.ads.AdError;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdValue;
 import com.google.android.gms.ads.admanager.AdManagerAdRequest;
 import io.invertase.googlemobileads.common.ReactNativeEventEmitter;
 import java.util.ArrayList;
@@ -263,6 +264,40 @@ public class ReactNativeGoogleMobileAdsCommon {
     codeAndMessage[0] = code;
     codeAndMessage[1] = message;
     return codeAndMessage;
+  }
+
+  static WritableMap adValueToMap(AdValue adValue) {
+    WritableMap map = Arguments.createMap();
+
+    long valueMicros = adValue.getValueMicros();
+    String currencyCode = adValue.getCurrencyCode();
+    int precision = adValue.getPrecisionType();
+
+    AdapterResponseInfo loadedAdapterResponseInfo = rewardedAd.getResponseInfo().getLoadedAdapterResponseInfo();
+    String adSourceName = loadedAdapterResponseInfo.getAdSourceName();
+    String adSourceId = loadedAdapterResponseInfo.getAdSourceId();
+    String adSourceInstanceName = loadedAdapterResponseInfo.getAdSourceInstanceName();
+    String adSourceInstanceId = loadedAdapterResponseInfo.getAdSourceInstanceId();
+
+    Bundle extras = rewardedAd.getResponseInfo().getResponseExtras();
+    String mediationGroupName = extras.getString("mediation_group_name");
+    String mediationABTestName = extras.getString("mediation_ab_test_name");
+    String mediationABTestVariant = extras.getString("mediation_ab_test_variant");
+
+    map.putDouble("valueMicros", valueMicros);
+    map.putString("currencyCode", currencyCode);
+    map.putInt("precision", precision);
+
+    map.putString("adSourceName", adSourceName);
+    map.putString("adSourceId", adSourceId);
+    map.putString("adSourceInstanceName", adSourceInstanceName);
+    map.putString("adSourceInstanceId", adSourceInstanceId);
+
+    map.putString("mediationGroupName", mediationGroupName);
+    map.putString("mediationABTestName", mediationABTestName);
+    map.putString("mediationABTestVariant", mediationABTestVariant);
+
+    return map;
   }
 
   public static boolean isAdManagerUnit(String unitId) {
